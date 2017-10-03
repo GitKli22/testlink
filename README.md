@@ -17,24 +17,6 @@ $ curl -sSL https://raw.githubusercontent.com/bitnami/bitnami-docker-testlink/ma
 $ docker-compose up -d
 ```
 
-## Kubernetes
-
-> **WARNING:** This is a beta configuration, currently unsupported.
-
-Get the raw URL pointing to the `kubernetes.yml` manifest and use `kubectl` to create the resources on your Kubernetes cluster like so:
-
-```bash
-$ kubectl create -f https://raw.githubusercontent.com/bitnami/bitnami-docker-testlink/master/kubernetes.yml
-```
-
-# Why use Bitnami Images?
-
-* Bitnami closely tracks upstream source changes and promptly publishes new versions of this image using our automated systems.
-* With Bitnami images the latest bug fixes and features are available as soon as possible.
-* Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
-* Bitnami images are built on CircleCI and automatically pushed to the Docker Hub.
-* All our images are based on [minideb](https://github.com/bitnami/minideb) a minimalist Debian based container image which gives you a small base container image and the familiarity of a leading linux distribution.
-
 # Prerequisites
 
 To run this application you need Docker Engine 1.10.0. Docker Compose is recommended with a version 1.6.0 or later.
@@ -80,41 +62,14 @@ volumes:
     driver: local
 ```
 
-### Run the application manually
-
-If you want to run the application manually instead of using docker-compose, these are the basic steps you need to run:
-
-1. Create a new network for the application and the database:
-
-  ```bash
-  $ docker network create testlink-tier
-  ```
-
-2. Start a MariaDB database in the network generated:
-
-  ```bash
-  $ docker run -d --name mariadb -e ALLOW_EMPTY_PASSWORD=yes --net=testlink-tier bitnami/mariadb
-  ```
-
-  *Note:* You need to give the container a name in order for TestLink to resolve the host
-
-3. Run the TestLink container:
-
-  ```bash
-  $ docker run -d -p 80:80 --name testlink --net=testlink-tier bitnami/testlink
-  ```
-
-Then you can access your application at http://your-ip/
-
 ## Persisting your application
 
 If you remove the container all your data and configurations will be lost, and the next time you run the image the database will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed.
 
-For persistence you should mount a volume at the `/bitnami` path. Additionally you should mount a volume for [persistence of the MariaDB data](https://github.com/bitnami/bitnami-docker-mariadb#persisting-your-database).
+For persistence you should mount a volume at the `/bitnami` path.
 
 The above examples define docker volumes namely `mariadb_data` and `testlink_data`. The TestLink application state will persist as long as these volumes are not removed.
 
-To avoid inadvertent removal of these volumes you can [mount host directories as data volumes](https://docs.docker.com/engine/tutorials/dockervolumes/). Alternatively you can make use of volume plugins to host the volume data.
 
 ### Mount host directories as data volumes with Docker Compose
 
