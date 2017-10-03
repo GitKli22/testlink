@@ -17,13 +17,13 @@ services:
       - '1443:443'
     volumes:
       - '/bitnami/testlink_data:/bitnami'
+      - '/bitnami/php:/bitnami/php'
     depends_on:
       - mariadb
     environment:
       - SMTP_ENABLE=true
       - SMTP_HOST=smtp
       - SMTP_PORT=25
-      - TESTLINK_EMAIL=rj@peoplevox.com
 
 volumes:
   mariadb_data:
