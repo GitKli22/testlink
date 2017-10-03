@@ -1,3 +1,4 @@
+---
 version: '2'
 
 services:
@@ -6,18 +7,23 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - 'mariadb_data:/bitnami'
+      - '/bitnami/mariadb_data:/bitnami'
   testlink:
     image: 'bitnami/testlink:latest'
     labels:
       kompose.service.type: nodeport
     ports:
-      - '80:80'
-      - '443:443'
+      - '180:80'
+      - '1443:443'
     volumes:
-      - 'testlink_data:/bitnami'
+      - '/bitnami/testlink_data:/bitnami'
     depends_on:
       - mariadb
+    environment:
+      - SMTP_ENABLE=true
+      - SMTP_HOST=smtp
+      - SMTP_PORT=25
+      - TESTLINK_EMAIL=rj@peoplevox.com
 
 volumes:
   mariadb_data:
